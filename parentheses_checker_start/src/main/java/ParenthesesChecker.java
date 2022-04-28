@@ -2,51 +2,92 @@ import java.util.Stack;
 
 public class ParenthesesChecker {
 
-    public boolean checkParentheses(String string) {
-        Stack<String> parentheses = new Stack<>();
-        for (char c : string.toCharArray()) {
+    private Stack<String> parentheses;
+
+    public ParenthesesChecker(){
+        this.parentheses = new Stack<>();
+    }
+
+    public void newLeftParenthesis(){
+        parentheses.push("(");
+    }
+
+    public void newRightParenthesis(){
+        if (parentheses.size() == 0) {
+            parentheses.push("fail");
+        } else if (parentheses.peek() == "(") {
+            parentheses.pop();
+        } else {
+            parentheses.push("fail");
+        }
+    }
+
+    public void newLeftAngle(){
+        parentheses.push("<");
+    }
+
+    public void newRightAngle(){
+        if (parentheses.size() == 0) {
+            parentheses.push("fail");
+        } else if (parentheses.peek() == "<") {
+            parentheses.pop();
+        } else {
+            parentheses.push("fail");
+        }
+    }
+
+    public void newLeftBrace(){
+        parentheses.push("{");
+    }
+
+    public void newRightBrace(){
+        if (parentheses.size() == 0) {
+            parentheses.push("fail");
+        } else if (parentheses.peek() == "{") {
+            parentheses.pop();
+        } else {
+            parentheses.push("fail");
+        }
+    }
+
+    public void newLeftSquare(){
+        parentheses.push("[");
+    }
+
+    public void newRightSquare(){
+        if (parentheses.size() == 0) {
+            parentheses.push("fail");
+        } else if (parentheses.peek() == "[") {
+            parentheses.pop();
+        } else {
+            parentheses.push("fail");
+        }
+    }
+
+    public void loopThroughString(String str){
+        for (char c : str.toCharArray()) {
             if (c == '(') {
-                parentheses.push("(");
+                this.newLeftParenthesis();
             } else if (c == ')') {
-                if (parentheses.size() == 0) {
-                    return false;
-                } else if (parentheses.peek() == "(") {
-                    parentheses.pop();
-                } else {
-                    return false;
-                }
+                this.newRightParenthesis();
             } else if (c == '<') {
-                parentheses.push("<");
+                this.newLeftAngle();
             } else if (c == '>') {
-                if (parentheses.size() == 0) {
-                    return false;
-                } else if (parentheses.peek() == "<") {
-                    parentheses.pop();
-                } else {
-                    return false;
-                }
+                this.newRightAngle();
             } else if (c == '{') {
-                parentheses.push("{");
+                this.newLeftBrace();
             } else if (c == '}') {
-                if (parentheses.size() == 0) {
-                    return false;
-                } else if (parentheses.peek() == "{") {
-                    parentheses.pop();
-                } else {
-                    return false;
-                }
+                this.newRightBrace();
             } else if (c == '[') {
-                parentheses.push("[");
+                this.newLeftSquare();
             } else if (c == ']') {
-                if (parentheses.size() == 0) {
-                    return false;
-                } else if (parentheses.peek() == "[") {
-                    parentheses.pop();
-                } else {
-                    return false;
-                }
+                this.newRightSquare();
             }
         }
+    }
+
+    public boolean checkParentheses(String string) {
+        this.loopThroughString(string);
         if (parentheses.size() == 0) {
             return true;
         } else {
